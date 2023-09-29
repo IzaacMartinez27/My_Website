@@ -15,18 +15,14 @@
 
         .side {
             display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
         }
 
-        .heads-text {
-            transform: rotate(0deg);
+        .heads-text, .tails-text {
+            font-size: 24px;
         }
 
-        .tails-text {
-            transform: rotate(180deg);
+        .text-path {
+            text-anchor: middle;
         }
     </style>
 </head>
@@ -35,13 +31,19 @@
         <!-- Heads Side -->
         <g class="side heads">
             <circle cx="50" cy="50" r="45" fill="#ccc"/>
-            <text x="50" y="50" font-size="24" text-anchor="middle" class="heads-text">Heads</text>
+            <text x="50" y="50" class="heads-text">
+                <textPath xlink:href="#circlePath" class="text-path">Heads</textPath>
+            </text>
         </g>
         <!-- Tails Side -->
         <g class="side tails">
             <circle cx="50" cy="50" r="45" fill="#999"/>
-            <text x="50" y="50" font-size="24" text-anchor="middle" class="tails-text">Tails</text>
+            <text x="50" y="50" class="tails-text">
+                <textPath xlink:href="#circlePath" class="text-path">Tails</textPath>
+            </text>
         </g>
+        <!-- Text Path -->
+        <path id="circlePath" d="M 50 5 A 45 45 0 0 1 50 95 A 45 45 0 0 1 50 5" fill="none" />
     </svg>
 
     <button onclick="flipCoin()">Flip Coin</button>
@@ -67,10 +69,6 @@
             // Use CSS transition for flip animation
             coin.style.transition = 'transform 1s';
             coin.style.transform = `rotateY(${rotation}deg)`;
-
-            // Rotate the text to make it readable
-            heads.style.transform = isHeads ? '' : 'rotate(180deg)';
-            tails.style.transform = isHeads ? 'rotate(180deg)' : '';
 
             // After the animation completes, show the final side
             setTimeout(() => {
