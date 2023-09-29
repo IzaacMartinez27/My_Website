@@ -15,14 +15,9 @@
 
         .side {
             display: none;
-        }
-
-        .heads-text, .tails-text {
-            font-size: 24px;
-        }
-
-        .text-path {
             text-anchor: middle;
+            alignment-baseline: middle;
+            font-size: 24px;
         }
     </style>
 </head>
@@ -31,19 +26,13 @@
         <!-- Heads Side -->
         <g class="side heads">
             <circle cx="50" cy="50" r="45" fill="#ccc"/>
-            <text x="50" y="50" class="heads-text">
-                <textPath xlink:href="#circlePath" class="text-path">Heads</textPath>
-            </text>
+            <text x="50" y="50" fill="black">Heads</text>
         </g>
         <!-- Tails Side -->
         <g class="side tails">
             <circle cx="50" cy="50" r="45" fill="#999"/>
-            <text x="50" y="50" class="tails-text">
-                <textPath xlink:href="#circlePath" class="text-path">Tails</textPath>
-            </text>
+            <text x="50" y="50" fill="white">Tails</text>
         </g>
-        <!-- Text Path -->
-        <path id="circlePath" d="M 50 5 A 45 45 0 0 1 50 95 A 45 45 0 0 1 50 5" fill="none" />
     </svg>
 
     <button onclick="flipCoin()">Flip Coin</button>
@@ -51,16 +40,13 @@
     <script>
         function flipCoin() {
             const coin = document.getElementById('coin');
-            const heads = document.querySelector('.heads');
-            const tails = document.querySelector('.tails');
+            const sides = document.querySelectorAll('.side');
 
             // Randomly decide if it's heads or tails
             const isHeads = Math.random() >= 0.5;
-            
+
             // Reset previous transforms
             coin.style.transform = '';
-            heads.style.transform = '';
-            tails.style.transform = '';
 
             // Animate the coin flip
             const numberOfFlips = Math.floor(Math.random() * 5) + 3; // 3 to 7 flips
@@ -72,13 +58,8 @@
 
             // After the animation completes, show the final side
             setTimeout(() => {
-                if (isHeads) {
-                    heads.style.display = 'block';
-                    tails.style.display = 'none';
-                } else {
-                    heads.style.display = 'none';
-                    tails.style.display = 'block';
-                }
+                sides.forEach(side => side.style.display = 'none');
+                sides[isHeads ? 0 : 1].style.display = 'block';
             }, 1000); // Wait for 1 second (animation duration)
         }
     </script>
